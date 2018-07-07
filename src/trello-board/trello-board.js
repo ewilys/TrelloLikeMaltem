@@ -1,6 +1,6 @@
 /**
- * @file: trello-like-maltem-app
- * @fileoverview: TrelloLikeMaltemApp class defining main web component of this app
+ * @file: trello-board
+ * @fileoverview: TrelloBoard class defining main web component of this app
  * @author: lmartini
  * @date: 07/07/18
  */
@@ -15,7 +15,7 @@ import {columnUrl, cardUrl, request} from "./fake-server.js";
  * @customElement
  * @polymer
  */
-class TrelloLikeMaltemApp extends PolymerElement {
+class TrelloBoard extends PolymerElement {
   static get template() {
     return html`
       <style>
@@ -89,16 +89,6 @@ class TrelloLikeMaltemApp extends PolymerElement {
             this.createCard(e.detail.btn, e.detail.col);
         });
 
-        this.addEventListener('rc', (e) => {
-            // e.detail = column id
-            console.log("herhehehrhr");
-            this.removeColumnFromDB(e.detail);
-        });
-
-        this.addEventListener('removeCard', (e) => {
-            // e.detail = card id
-            this.removeCardFromDB(e.detail);
-        });
 
         // call to request
         request(this.requestObject)
@@ -175,7 +165,7 @@ class TrelloLikeMaltemApp extends PolymerElement {
     createCard(addCardBtn, columnId){
         this.totalNumberOfCard++;
         const /** trello-card */ newCard = document.createElement('trello-card');
-        newCard.title = `Card${this.totalNumberOfCard}`;
+        newCard.title = `Card ${this.totalNumberOfCard}`;
         newCard.id = `card${this.totalNumberOfCard}`;
         newCard.columnId = columnId;
         newCard.description = "No description";
@@ -222,31 +212,10 @@ class TrelloLikeMaltemApp extends PolymerElement {
             .catch(err => console.error(err));
     }
 
-    removeColumnFromDB(colId) {
-        this.requestObject = {
-            method: 'DELETE',
-            url: `${columnUrl}/${colId}`,
-        };
-        request(this.requestObject)
-            .then(resp => {
-                console.log(resp);
-            })
-            .catch(err => console.error(err));
-    }
 
-    removeCardFromDB(cardId) {
-        this.requestObject = {
-            method: 'DELETE',
-            url: `${cardUrl}/${cardId}`,
-        };
-        request(this.requestObject)
-            .then(resp => {
-                console.log(resp);
-            })
-            .catch(err => console.error(err));
-    }
+
 }
 
-customElements.define('trello-like-maltem-app', TrelloLikeMaltemApp);
+customElements.define('trello-board', TrelloBoard);
 
 

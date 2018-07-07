@@ -7,6 +7,7 @@
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import './editable-text.js';
+import {cardUrl, request} from "./fake-server.js";
 
 /**
  * @customElement
@@ -60,8 +61,16 @@ class TrelloCard extends PolymerElement {
             },
             id: {
                 type: String
+            },
+            idNumber:{
+                type: Number,
+                computed: 'getIdNumber(id)'
             }
         };
+    }
+
+    getIdNumber(id) {
+        return id.replace('card','');
     }
 
     constructor() {
@@ -82,8 +91,7 @@ class TrelloCard extends PolymerElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        this.dispatchEvent(new CustomEvent('removeCard', {detail: this.id, composed:true}));
-
+        this.removeCardFromDB(this.idNumber);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -93,6 +101,18 @@ class TrelloCard extends PolymerElement {
 
     removeCard(elem) {
         elem.parentNode.removeChild(elem);
+    }
+
+    removeCardFromDB(cardId) {
+        this.requestObject = {
+            method: 'DELETE',
+            url: `${cardUrl}/${cardId}`,
+        };
+        request(this.requestObject)
+            .then(resp => {
+                console.log(resp);
+            })
+            .catch(err => console.error(err));
     }
 }
 

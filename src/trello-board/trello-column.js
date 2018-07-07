@@ -7,6 +7,7 @@
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import './editable-text.js';
+import {columnUrl, cardUrl, request} from "./fake-server";
 
 /**
  * @customElement
@@ -73,8 +74,16 @@ class TrelloColumn extends PolymerElement {
             },
             id: {
                 type: String
+            },
+            idNumber:{
+            type: Number,
+                computed: 'getIdNumber(id)'
             }
         };
+    }
+
+    getIdNumber(id) {
+        return Number(id.replace('col',''));
     }
 
     constructor() {
@@ -94,15 +103,13 @@ class TrelloColumn extends PolymerElement {
         this.$['addCardBtn'].addEventListener('click', (e) =>{
             // this = trello-column
             this.dispatchEvent(new CustomEvent('createCard',
-                {detail: {btn:e.target, col:this.id.replace('col','')}, composed:true}));
+                {detail: {btn:e.target, col:this.idNumber}, composed:true}));
         });
 
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        console.log(this.id);
-        this.dispatchEvent(new CustomEvent('rc', {composed:true}));
 
     }
 
@@ -113,6 +120,19 @@ class TrelloColumn extends PolymerElement {
 
     removeColumn(elem) {
         elem.parentNode.removeChild(elem);
+        this.removeColumnFromDB(this.idNumber);
+    }
+
+    removeColumnFromDB(colId) {
+        this.requestObject = {
+            method: 'DELETE',
+            url: `${columnUrl}/${colId}`,
+        };
+        request(this.requestObject)
+            .then(resp => {
+                console.log(resp);
+            })
+            .catch(err => console.error(err));
     }
 
 
