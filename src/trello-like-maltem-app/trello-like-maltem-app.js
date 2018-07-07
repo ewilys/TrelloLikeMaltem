@@ -39,15 +39,6 @@ class TrelloLikeMaltemApp extends PolymerElement {
         <div main-title>My board</div>
       </app-toolbar>
       <div id="board-container">
-       <!-- <trello-column title="T1">
-            <trello-card slot="card" title="c1" ></trello-card>
-            <trello-card slot="card" title="c2" description=""></trello-card>
-        </trello-column>
-        <trello-column title="T2">
-            <trello-card slot="card" title="c3" description=""></trello-card>
-            <trello-card slot="card" title="c4" description="oopopo"></trello-card>
-            <trello-card slot="card" title="c5" description="pofjepiowejfpiwej"></trello-card>
-        </trello-column>-->
         </div>
     `;
   }
@@ -70,17 +61,24 @@ class TrelloLikeMaltemApp extends PolymerElement {
           method: 'GET',
           url: columnUrl
         };
+
+
+    }
+
+    ready(){
+        super.ready();
+
         // call to request
         request(this.requestObject)
             .then(columns => {
-                this.columns = columns;
+                this.columns = JSON.parse(columns);
                 this.requestObject.url = cardUrl;
                 return request(this.requestObject)
             })
             .then(cards => {
-                this.cards = cards;
-                console.log(this.columns, this.cards);
-              }
+                    this.cards = JSON.parse(cards);
+                    this.initBoard();
+                }
             )
             .catch(error => {
                 console.log(error);
@@ -88,13 +86,29 @@ class TrelloLikeMaltemApp extends PolymerElement {
 
     }
 
-    ready(){
-        super.ready();
-
-    }
-
     initBoard(){
+      const /** number */ colLength = this.columns.length;
+      if (colLength !== 0) {
+        this.columns.forEach(currentCol => {
+          const /** trello-column */ newCol = document.createElement('trello-column');
+          newCol.setAttribute('title',currentCol.title);
+          newCol.setAttribute('id', `col${currentCol.id}`);
 
+          const /** array<object> */ correspondingCard = this.cards.filter(card => card.columnId === currentCol.id);
+          correspondingCard.forEach(currCard => {
+              const /** trello-card */ newCard = document.createElement('trello-card');
+              newCard.setAttribute('title', currCard.title);
+              newCard.setAttribute('id', `card${currCard.id}`);
+              newCard.setAttribute('description', currCard.description);
+              newCard.setAttribute('slot', 'card');
+
+              newCol.appendChild(newCard);
+              return newCol;
+          });
+          this.$['board-container'].appendChild(newCol);
+        });
+
+      }
     }
 
 
