@@ -44,7 +44,7 @@ class TrelloLikeMaltemApp extends PolymerElement {
             align-items: flex-start;
         }
       </style>
-      <h1>[[prop1]]</h1>
+      <h1>[[Title]]</h1>
        <app-toolbar>
         <div main-title>My board</div>
       </app-toolbar>
@@ -54,7 +54,7 @@ class TrelloLikeMaltemApp extends PolymerElement {
   }
   static get properties() {
     return {
-      prop1: {
+      Title: {
         type: String,
         value: 'My trello'
       }
@@ -67,6 +67,8 @@ class TrelloLikeMaltemApp extends PolymerElement {
         // initiate columns and cards with db.json info
         this.columns = [];
         this.cards = [];
+        this.numberOfColumn = 0;
+        this.numberOfCard = 0;
         this.requestObject = {
           method: 'GET',
           url: columnUrl
@@ -75,8 +77,12 @@ class TrelloLikeMaltemApp extends PolymerElement {
 
     }
 
+
     ready(){
         super.ready();
+
+        this.boardContainer = this.$['board-container'];
+
 
         // call to request
         request(this.requestObject)
@@ -113,21 +119,39 @@ class TrelloLikeMaltemApp extends PolymerElement {
               newCard.setAttribute('slot', 'card');
 
               newCol.appendChild(newCard);
+              this.numberOfCard++;
               return newCol;
           });
-          this.$['board-container'].appendChild(newCol);
+          this.boardContainer.appendChild(newCol);
+          this.numberOfColumn++;
         });
       }
+
 
       // now add the add Column button
         const /** simple-button */ addColButt = document.createElement('button');
         addColButt.setAttribute('class', 'fancy');
         addColButt.textContent = 'Add Column';
-        this.$['board-container'].appendChild(addColButt);
+
+        addColButt.addEventListener('click',() => {
+            this.createColumn(addColButt);
+        });
+
+        this.boardContainer.appendChild(addColButt);
+
 
     }
 
+    createColumn(addColButt){
+        this.numberOfColumn++;
+        const /** trello-column */ newCol = document.createElement('trello-column');
+        newCol.setAttribute('title',`Column ${this.numberOfColumn}`);
+        newCol.setAttribute('id', `col${this.numberOfColumn}`);
+        this.boardContainer.insertBefore(newCol, addColButt);
+    }
 
 }
 
 customElements.define('trello-like-maltem-app', TrelloLikeMaltemApp);
+
+

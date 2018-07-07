@@ -23,28 +23,43 @@ class TrelloColumn extends PolymerElement {
             display:flex;
             flex-direction: column;
             justify-content: space-around;
+            /* align-items: center; */
+            
+        }
+        #col-header-container {
+            display: flex;
+            flex:1
+            flex-direction: row;
+            justify-content: space-around;
             align-items: center;
-            min-height: 300px;
+
         }
         #column-container {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             background-color: azure;
-            width: 200px;
+            
         }
       </style>
-      <h2><edit-text id=[[id]]Title>{{title}}</edit-text></h2>
+       
+      <div id="col-header-container">
+        <h2><edit-text id=[[id]]Title>{{title}}</edit-text></h2>
+        <button id="removeBtn"> X </button>
+       </div>
+      
       <div id="column-container">
         <slot name="card"></slot>
         </div>
+        
     `;
     }
     static get properties() {
         return {
             title: {
                 type: String,
-                value: 'Title'
+                value: 'Title',
+                notify: true
             },
             id: {
                 type: String
@@ -64,17 +79,27 @@ class TrelloColumn extends PolymerElement {
     connectedCallback() {
         super.connectedCallback();
         console.log('Column added to page');
+        this.$['removeBtn'].addEventListener('click', () => {
+            this.removeColumn(this);
+        });
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
         console.log('Column removed from page.');
+
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name,oldValue,newValue);
         console.log(name, newValue);
     }
+
+    removeColumn(elem) {
+        elem.parentNode.removeChild(elem);
+    }
 }
 
 customElements.define('trello-column', TrelloColumn);
+
+
