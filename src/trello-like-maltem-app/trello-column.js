@@ -23,7 +23,9 @@ class TrelloColumn extends PolymerElement {
         }
       </style>
       <h2>[[title]]</h2>
-      <div id="column-container"></div>
+      <div id="column-container">
+        <slot name="card"></slot>
+        </div>
     `;
     }
     static get properties() {
@@ -40,4 +42,4 @@ class TrelloColumn extends PolymerElement {
     }
 }
 
-window.customElements.define('trello-column', TrelloColumn);
+customElements.define('trello-column', TrelloColumn);
