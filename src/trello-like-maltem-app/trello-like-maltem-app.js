@@ -85,11 +85,19 @@ class TrelloLikeMaltemApp extends PolymerElement {
 
         // apply custom events
         this.addEventListener('createCard', (e) => {
-            this.createCard(e.detail);
+            // e.detail contains btn and column Id
+            this.createCard(e.detail.btn, e.detail.col);
         });
 
-        this.addEventListener('removeColumn', (e) => {
+        this.addEventListener('rc', (e) => {
+            // e.detail = column id
+            console.log("herhehehrhr");
             this.removeColumnFromDB(e.detail);
+        });
+
+        this.addEventListener('removeCard', (e) => {
+            // e.detail = card id
+            this.removeCardFromDB(e.detail);
         });
 
         // call to request
@@ -160,31 +168,82 @@ class TrelloLikeMaltemApp extends PolymerElement {
         newCol.id = `col${this.numberOfColumn}`;
 
         this.boardContainer.insertBefore(newCol, addColButt);
+        this.addColumnToDB(newCol);
+
+    }
+
+    createCard(addCardBtn, columnId){
+        this.totalNumberOfCard++;
+        const /** trello-card */ newCard = document.createElement('trello-card');
+        newCard.title = `Card${this.totalNumberOfCard}`;
+        newCard.id = `card${this.totalNumberOfCard}`;
+        newCard.columnId = columnId;
+        newCard.description = "No description";
+        newCard.slot = 'card';
+
+        addCardBtn.parentNode.insertBefore(newCard, addCardBtn);
+        this.addCardToDB(newCard);
+    }
+
+
+    addColumnToDB(newCol){
         this.requestObject = {
             method: 'POST',
             url: columnUrl,
-            body: {
-                "id": newCol.id,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "id": this.numberOfColumn,
                 "title": newCol.title
-            }
+            })
         };
         request(this.requestObject)
             .then(resp => {
                 console.log(resp);
             })
             .catch(err => console.error(err));
-
     }
 
-    createCard(addCardBtn){
-        this.totalNumberOfCard++;
-        const /** trello-card */ newCard = document.createElement('trello-card');
-        newCard.title = `Card${this.totalNumberOfCard}`;
-        newCard.id = `card${this.totalNumberOfCard}`;
-        newCard.description = "No description";
-        newCard.slot = 'card';
+    addCardToDB(newCard){
+        this.requestObject = {
+            method: 'POST',
+            url: cardUrl,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "id": this.totalNumberOfCard,
+                "title": newCard.title,
+                "description": newCard.description,
+                "columnId":newCard.columnId
+            })
+        };
+        request(this.requestObject)
+            .then(resp => {
+                console.log(resp);
+            })
+            .catch(err => console.error(err));
+    }
 
-        addCardBtn.parentNode.insertBefore(newCard, addCardBtn);
+    removeColumnFromDB(colId) {
+        this.requestObject = {
+            method: 'DELETE',
+            url: `${columnUrl}/${colId}`,
+        };
+        request(this.requestObject)
+            .then(resp => {
+                console.log(resp);
+            })
+            .catch(err => console.error(err));
+    }
+
+    removeCardFromDB(cardId) {
+        this.requestObject = {
+            method: 'DELETE',
+            url: `${cardUrl}/${cardId}`,
+        };
+        request(this.requestObject)
+            .then(resp => {
+                console.log(resp);
+            })
+            .catch(err => console.error(err));
     }
 }
 

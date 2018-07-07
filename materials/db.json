@@ -8,7 +8,6 @@
       "id": 2,
       "title": "Column 2"
     }
-
   ],
   "cards": [
     {
@@ -39,11 +38,6 @@
       "id": 5,
       "title": "Card 5",
       "description": "Suspendisse posuere ipsum at dui lacinia, ut faucibus lectus mollis.",
-      "columnId": 2
-    },
-    {
-      "id": 6,
-      "title": "Card 6",
       "columnId": 2
     }
   ]

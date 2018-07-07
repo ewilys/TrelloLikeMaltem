@@ -88,20 +88,21 @@ class TrelloColumn extends PolymerElement {
 
     connectedCallback() {
         super.connectedCallback();
-
         this.$['removeBtn'].addEventListener('click', () => {
             this.removeColumn(this);
         });
         this.$['addCardBtn'].addEventListener('click', (e) =>{
             // this = trello-column
-            this.dispatchEvent(new CustomEvent('createCard', {detail: e.target, composed:true}));
+            this.dispatchEvent(new CustomEvent('createCard',
+                {detail: {btn:e.target, col:this.id.replace('col','')}, composed:true}));
         });
 
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        this.dispatchEvent(new CustomEvent('removeColumn', {detail: this.id, composed:true}));
+        console.log(this.id);
+        this.dispatchEvent(new CustomEvent('rc', {composed:true}));
 
     }
 
