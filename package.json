@@ -1,0 +1,11 @@
+{
+  "name": "trello-like-maltem",
+  "description": "trello like assignment for Maltem using web components",
+  "dependencies": {
+    "@polymer/polymer": "^3.0.0"
+  },
+  "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "wct-browser-legacy": "^1.0.0"
+  }
+}

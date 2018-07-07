@@ -1,0 +1,7 @@
+{
+  "name": "trello-like-maltem",
+  "short_name": "trello-like-maltem",
+  "description": "trello like assignment for Maltem using web components",
+  "start_url": "/",
+  "display": "standalone"
+}
