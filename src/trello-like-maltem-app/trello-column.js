@@ -6,6 +6,7 @@
  */
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import './editable-text.js';
 
 /**
  * @customElement
@@ -29,7 +30,7 @@ class TrelloColumn extends PolymerElement {
             width: 200px;
         }
       </style>
-      <h2>[[title]]</h2>
+      <h2><edit-text id=[[id]]Title>[[title]]</edit-text></h2>
       <div id="column-container">
         <slot name="card"></slot>
         </div>
@@ -40,6 +41,9 @@ class TrelloColumn extends PolymerElement {
             title: {
                 type: String,
                 value: 'Title'
+            },
+            id: {
+                type: String
             }
         };
     }

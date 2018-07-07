@@ -1,11 +1,12 @@
 /**
  * @file: trello-card
- * @fileoverview: TrelloCard class defining Trello card web component
+ * @fileoverview: TrelloCard class defining Trello column web component
  * @author: lmartini
  * @date: 07/07/18
  */
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import './editable-text.js';
 
 /**
  * @customElement
@@ -28,10 +29,10 @@ class TrelloCard extends PolymerElement {
             
         }
       </style>
-      <h4>[[title]]</h4>
+      <h4><edit-text id=[[id]]Title>[[title]]</edit-text></h4>
       <div id="card-description">
         <label>description</label>
-        <p>[[description]]</p>
+        <p><edit-text id=[[id]]Desc>[[description]]</edit-text></p>
       </div>
     `;
     }
@@ -42,8 +43,10 @@ class TrelloCard extends PolymerElement {
                 value: 'card title'
             },
             description: {
-                type: String,
-                value: 'no description'
+                type: String
+            },
+            id: {
+                type: String
             }
         };
     }
