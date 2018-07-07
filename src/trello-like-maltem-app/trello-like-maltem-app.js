@@ -11,15 +11,30 @@ class TrelloLikeMaltemApp extends PolymerElement {
         :host {
           display: block;
         }
+        app-toolbar {
+            /* Toolbar is the main header, so give it some color */
+          background-color: #1E88E5;
+          font-family: 'Roboto', Helvetica, sans-serif;
+          color: white;
+          --app-toolbar-font-size: 24px;
+        }
+        #board-container {
+            display: flex;
+            flex-direction: row;
+        }
       </style>
-      <h2>Hello [[prop1]]!</h2>
+      <h1>[[prop1]]</h1>
+       <app-toolbar>
+        <div main-title>My board</div>
+      </app-toolbar>
+      <div id="board-container"></div>
     `;
   }
   static get properties() {
     return {
       prop1: {
         type: String,
-        value: 'trello-like-maltem-app'
+        value: 'My trello'
       }
     };
   }

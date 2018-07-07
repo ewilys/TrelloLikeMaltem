@@ -6,6 +6,7 @@
     "start": "start json-server --watch materials/db.json && start polymer serve "
   },
   "dependencies": {
+    "@polymer/app-layout": "^3.0.0-pre.21",
     "@polymer/polymer": "^3.0.0"
   },
   "devDependencies": {
