@@ -82,6 +82,7 @@ class TrelloCard extends PolymerElement {
 
     disconnectedCallback() {
         super.disconnectedCallback();
+        this.dispatchEvent(new CustomEvent('removeCard', {detail: this.id, composed:true}));
 
     }
 
@@ -92,7 +93,6 @@ class TrelloCard extends PolymerElement {
 
     removeCard(elem) {
         elem.parentNode.removeChild(elem);
-        this.dispatchEvent(new CustomEvent('removeCard', {detail: this.id, composed:true}));
     }
 }
 
