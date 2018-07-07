@@ -1,4 +1,6 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import './trello-column.js';
 
 /**
  * @customElement
@@ -27,7 +29,10 @@ class TrelloLikeMaltemApp extends PolymerElement {
        <app-toolbar>
         <div main-title>My board</div>
       </app-toolbar>
-      <div id="board-container"></div>
+      <div id="board-container">
+        <trello-column title="T1"></trello-column>
+        <trello-column title="T2"></trello-column>
+        </div>
     `;
   }
   static get properties() {
