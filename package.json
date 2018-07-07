@@ -1,6 +1,10 @@
 {
   "name": "trello-like-maltem",
   "description": "trello like assignment for Maltem using web components",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start json-server --watch materials/db.json && start polymer serve "
+  },
   "dependencies": {
     "@polymer/polymer": "^3.0.0"
   },

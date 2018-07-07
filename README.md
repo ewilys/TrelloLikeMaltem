@@ -2,27 +2,46 @@
 
 trello like assignment for Maltem using web components
 
+#Installation process
+
 ## Install the Polymer-CLI
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed.
+```bash
+$ npm install -g polymer-cli
+```
+## Install the JSON-Sever
 
-## Viewing Your Application
+then install JSON-Server on your computer
 
+```bash
+$ npm install -g json-server
+```
+
+## Install dependencies
+
+```bash
+$ npm install
+```
+
+## To view the application
+Run first the fake server
+
+If you are under windowsOs run :
+
+```bash
+$ npm start
+```
+Otherwise you can run :
+
+```bash
+$ json-server --watch materials/db.json
+```
+and then on another console
 ```
 $ polymer serve
 ```
-
-## Building Your Application
-
-```
-$ polymer build
-```
-
-This will create builds of your application in the `build/` directory, optimized to be served in production. You can then serve the built versions by giving `polymer serve` a folder to serve from:
-
-```
-$ polymer serve build/default
-```
+Now you can go to [http://localhost:8081/](http://localhost:8081/)
 
 ## Running Tests
 
@@ -30,4 +49,3 @@ $ polymer serve build/default
 $ polymer test
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
