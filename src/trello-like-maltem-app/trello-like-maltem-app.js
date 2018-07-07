@@ -68,7 +68,7 @@ class TrelloLikeMaltemApp extends PolymerElement {
         this.columns = [];
         this.cards = [];
         this.numberOfColumn = 0;
-        this.numberOfCard = 0;
+        this.totalNumberOfCard = 0;
         this.requestObject = {
           method: 'GET',
           url: columnUrl
@@ -83,6 +83,10 @@ class TrelloLikeMaltemApp extends PolymerElement {
 
         this.boardContainer = this.$['board-container'];
 
+        // apply custom event
+        this.addEventListener('createCard', (e) => {
+            this.createCard(e.detail);
+        });
 
         // call to request
         request(this.requestObject)
@@ -107,24 +111,27 @@ class TrelloLikeMaltemApp extends PolymerElement {
       if (colLength !== 0) {
         this.columns.forEach(currentCol => {
           const /** trello-column */ newCol = document.createElement('trello-column');
-          newCol.setAttribute('title',currentCol.title);
-          newCol.setAttribute('id', `col${currentCol.id}`);
+          newCol.title = currentCol.title;
+          newCol.id = `col${currentCol.id}`;
 
           const /** array<object> */ correspondingCard = this.cards.filter(card => card.columnId === currentCol.id);
           correspondingCard.forEach(currCard => {
               const /** trello-card */ newCard = document.createElement('trello-card');
-              newCard.setAttribute('title', currCard.title);
-              newCard.setAttribute('id', `card${currCard.id}`);
-              if (currCard.description !== undefined) newCard.setAttribute('description', currCard.description );
-              newCard.setAttribute('slot', 'card');
+              newCard.title = currCard.title;
+              newCard.id = `card${currCard.id}`;
+              if (currCard.description !== undefined) newCard.description = currCard.description;
+              newCard.slot = 'card';
 
               newCol.appendChild(newCard);
-              this.numberOfCard++;
+              this.totalNumberOfCard++;
               return newCol;
           });
+
           this.boardContainer.appendChild(newCol);
           this.numberOfColumn++;
         });
+
+
       }
 
 
@@ -145,11 +152,22 @@ class TrelloLikeMaltemApp extends PolymerElement {
     createColumn(addColButt){
         this.numberOfColumn++;
         const /** trello-column */ newCol = document.createElement('trello-column');
-        newCol.setAttribute('title',`Column ${this.numberOfColumn}`);
-        newCol.setAttribute('id', `col${this.numberOfColumn}`);
+        newCol.title = `Column ${this.numberOfColumn}`;
+        newCol.id = `col${this.numberOfColumn}`;
+
         this.boardContainer.insertBefore(newCol, addColButt);
     }
 
+    createCard(addCardBtn){
+        this.totalNumberOfCard++;
+        const /** trello-card */ newCard = document.createElement('trello-card');
+        newCard.title = `Card${this.totalNumberOfCard}`;
+        newCard.id = `card${this.totalNumberOfCard}`;
+        newCard.description = "No description";
+        newCard.slot = 'card';
+
+        addCardBtn.parentNode.insertBefore(newCard, addCardBtn);
+    }
 }
 
 customElements.define('trello-like-maltem-app', TrelloLikeMaltemApp);

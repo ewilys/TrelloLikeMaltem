@@ -15,7 +15,7 @@ import './editable-text.js';
 class TrelloColumn extends PolymerElement {
     static get template() {
         return html`
-      <style>
+      <style xmlns="http://www.w3.org/1999/html">
         :host {
             border-style: solid;
             border-width:1px;
@@ -26,6 +26,15 @@ class TrelloColumn extends PolymerElement {
             /* align-items: center; */
             
         }
+        .fancy {
+            font-size: 14px;
+            color: white;
+            border-radius: 5px;
+            padding: 0.5em 1em;
+            background: rgb(76, 208, 204);
+            display:flex;
+            align-self: center;
+          }
         #col-header-container {
             display: flex;
             flex:1
@@ -50,6 +59,7 @@ class TrelloColumn extends PolymerElement {
       
       <div id="column-container">
         <slot name="card"></slot>
+        <button class="fancy" id="addCardBtn">Add Card</button>
         </div>
         
     `;
@@ -78,15 +88,19 @@ class TrelloColumn extends PolymerElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log('Column added to page');
+
         this.$['removeBtn'].addEventListener('click', () => {
             this.removeColumn(this);
         });
+        this.$['addCardBtn'].addEventListener('click', (e) =>{
+            // this = trello-column
+            this.dispatchEvent(new CustomEvent('createCard', {detail: e.target, composed:true}));
+        });
+
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-        console.log('Column removed from page.');
 
     }
 
@@ -98,6 +112,8 @@ class TrelloColumn extends PolymerElement {
     removeColumn(elem) {
         elem.parentNode.removeChild(elem);
     }
+
+
 }
 
 customElements.define('trello-column', TrelloColumn);
