@@ -1,3 +1,10 @@
+/**
+ * @file: trello-column
+ * @fileoverview: TrelloColumn class defining Trello column web component
+ * @author: lmartini
+ * @date: 07/07/18
+ */
+
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 
 /**
@@ -39,6 +46,11 @@ class TrelloColumn extends PolymerElement {
 
     constructor() {
         super();
+    }
+
+
+    ready() {
+        super.ready();
     }
 }
 

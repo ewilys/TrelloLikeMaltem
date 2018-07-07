@@ -1,3 +1,10 @@
+/**
+ * @file: trello-card
+ * @fileoverview: TrelloCard class defining Trello card web component
+ * @author: lmartini
+ * @date: 07/07/18
+ */
+
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 
 /**
@@ -43,6 +50,10 @@ class TrelloCard extends PolymerElement {
 
     constructor() {
         super();
+    }
+
+    ready() {
+        super.ready();
     }
 }
 
