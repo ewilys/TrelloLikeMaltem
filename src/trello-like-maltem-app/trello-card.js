@@ -29,10 +29,10 @@ class TrelloCard extends PolymerElement {
             
         }
       </style>
-      <h4><edit-text id=[[id]]Title>[[title]]</edit-text></h4>
+      <h4><edit-text id=[[id]]Title>{{title}}</edit-text></h4>
       <div id="card-description">
         <label>description</label>
-        <p><edit-text id=[[id]]Desc>[[description]]</edit-text></p>
+        <p><edit-text id=[[id]]Desc>{{description}}</edit-text></p>
       </div>
     `;
     }

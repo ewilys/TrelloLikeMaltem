@@ -20,17 +20,21 @@ class TrelloColumn extends PolymerElement {
             border-style: solid;
             border-width:1px;
             border-color: black;
-            width:300px;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
             min-height: 300px;
         }
         #column-container {
             display: flex;
             flex-direction: column;
+            justify-content: space-around;
             background-color: azure;
             width: 200px;
         }
       </style>
-      <h2><edit-text id=[[id]]Title>[[title]]</edit-text></h2>
+      <h2><edit-text id=[[id]]Title>{{title}}</edit-text></h2>
       <div id="column-container">
         <slot name="card"></slot>
         </div>
@@ -55,6 +59,21 @@ class TrelloColumn extends PolymerElement {
 
     ready() {
         super.ready();
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        console.log('Column added to page');
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        console.log('Column removed from page.');
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name,oldValue,newValue);
+        console.log(name, newValue);
     }
 }
 

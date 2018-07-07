@@ -22,6 +22,14 @@ class TrelloLikeMaltemApp extends PolymerElement {
         :host {
           display: block;
         }
+        .fancy {
+            font-size: 14px;
+            color: white;
+            border-radius: 5px;
+            padding: 0.5em 1em;
+            background: rgb(76, 208, 204);
+            
+          }
         app-toolbar {
             /* Toolbar is the main header, so give it some color */
           background-color: #1E88E5;
@@ -32,6 +40,8 @@ class TrelloLikeMaltemApp extends PolymerElement {
         #board-container {
             display: flex;
             flex-direction: row;
+            justify-content: space-around;
+            align-items: flex-start;
         }
       </style>
       <h1>[[prop1]]</h1>
@@ -107,8 +117,14 @@ class TrelloLikeMaltemApp extends PolymerElement {
           });
           this.$['board-container'].appendChild(newCol);
         });
-
       }
+
+      // now add the add Column button
+        const /** simple-button */ addColButt = document.createElement('button');
+        addColButt.setAttribute('class', 'fancy');
+        addColButt.textContent = 'Add Column';
+        this.$['board-container'].appendChild(addColButt);
+
     }
 
 
