@@ -99,7 +99,7 @@ class TrelloLikeMaltemApp extends PolymerElement {
               const /** trello-card */ newCard = document.createElement('trello-card');
               newCard.setAttribute('title', currCard.title);
               newCard.setAttribute('id', `card${currCard.id}`);
-              newCard.setAttribute('description', currCard.description);
+              if (currCard.description !== undefined) newCard.setAttribute('description', currCard.description );
               newCard.setAttribute('slot', 'card');
 
               newCol.appendChild(newCard);
