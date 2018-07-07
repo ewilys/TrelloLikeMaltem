@@ -22,6 +22,14 @@ class TrelloCard extends PolymerElement {
             border-color: blue;
             
         }
+        #card-header-container {
+            display: flex;
+            flex:1
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+
+        }
         #card-description {
             display: flex;
             flex-direction: column;
@@ -29,7 +37,12 @@ class TrelloCard extends PolymerElement {
             
         }
       </style>
-      <h4><edit-text id=[[id]]Title>{{title}}</edit-text></h4>
+      
+      <div id="card-header-container">
+         <h4><edit-text id=[[id]]Title>{{title}}</edit-text></h4>
+        <button id="removeBtn"> X </button>
+       </div>
+     
       <div id="card-description">
         <label>description</label>
         <p><edit-text id=[[id]]Desc>{{description}}</edit-text></p>
@@ -57,6 +70,29 @@ class TrelloCard extends PolymerElement {
 
     ready() {
         super.ready();
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+
+        this.$['removeBtn'].addEventListener('click', () => {
+            this.removeCard(this);
+        });
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        super.attributeChangedCallback(name,oldValue,newValue);
+        console.log(name, newValue);
+    }
+
+    removeCard(elem) {
+        elem.parentNode.removeChild(elem);
+        this.dispatchEvent(new CustomEvent('removeCard', {detail: this.id, composed:true}));
     }
 }
 

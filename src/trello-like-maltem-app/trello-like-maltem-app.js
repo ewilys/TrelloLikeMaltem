@@ -83,9 +83,13 @@ class TrelloLikeMaltemApp extends PolymerElement {
 
         this.boardContainer = this.$['board-container'];
 
-        // apply custom event
+        // apply custom events
         this.addEventListener('createCard', (e) => {
             this.createCard(e.detail);
+        });
+
+        this.addEventListener('removeColumn', (e) => {
+            this.removeColumnFromDB(e.detail);
         });
 
         // call to request
@@ -156,6 +160,20 @@ class TrelloLikeMaltemApp extends PolymerElement {
         newCol.id = `col${this.numberOfColumn}`;
 
         this.boardContainer.insertBefore(newCol, addColButt);
+        this.requestObject = {
+            method: 'POST',
+            url: columnUrl,
+            body: {
+                "id": newCol.id,
+                "title": newCol.title
+            }
+        };
+        request(this.requestObject)
+            .then(resp => {
+                console.log(resp);
+            })
+            .catch(err => console.error(err));
+
     }
 
     createCard(addCardBtn){

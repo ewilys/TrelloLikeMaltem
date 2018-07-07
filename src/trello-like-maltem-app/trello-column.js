@@ -111,6 +111,7 @@ class TrelloColumn extends PolymerElement {
 
     removeColumn(elem) {
         elem.parentNode.removeChild(elem);
+        this.dispatchEvent(new CustomEvent('removeColumn', {detail: this.id, composed:true}));
     }
 
 
