@@ -2,3 +2,6 @@
 
 # webstorm directorires
 .idea
+
+# for now on don't take care of db.json
+/materials/db.json
