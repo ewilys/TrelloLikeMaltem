@@ -6,6 +6,7 @@
  */
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
 import './editable-text.js';
 import {columnUrl, cardUrl, request} from "./fake-server";
 
@@ -55,7 +56,7 @@ class TrelloColumn extends PolymerElement {
        
       <div id="col-header-container">
         <h2><edit-text id=[[id]]Title text={{title}}></h2>
-        <button id="removeBtn"> X </button>
+        <paper-icon-button icon="star" id="removeBtn"></paper-icon-button>
        </div>
       
       <div id="column-container">
