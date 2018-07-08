@@ -71,7 +71,8 @@ class EditableText extends PolymerElement {
     editInput.style.width = editSpan.clientWidth + 'px';
 
     afterNextRender(this, function() {
-      this.addEventListener('click', function () {
+      this.addEventListener('click', function (e) {
+          e.stopPropagation();
           editSpan.style.display = 'none';
           editForm.style.display = 'flex';
           editInput.value = editSpan.textContent;
