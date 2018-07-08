@@ -228,14 +228,22 @@ class TrelloBoard extends PolymerElement {
     searchKeyword(newVal, oldVal) {
         if (oldVal) {
             // if several words we need to do multiple text research and merge results
-            this.requestObject = {
-                method: 'GET',
-                url: `${cardUrl}?q=${newVal}`
-            };
-            request(this.requestObject)
-                .then(resp => {
-                    resp = JSON.parse(resp);
-                    resp = resp.map(val => val.id);
+            const /** array<string> */ splitKeywords = newVal.trim().split(' ');
+            const /** array<promise> */ requestPromisesArray = [];
+            for(let sk=0; sk<splitKeywords.length; sk++){
+                const /** object */ requestObject = {
+                    method: 'GET',
+                    url: `${cardUrl}?q=${splitKeywords[sk]}`
+                };
+                requestPromisesArray.push(request(requestObject)
+                    .then(resp => {
+                        resp = JSON.parse(resp);
+                        return resp.map(val => val.id);}));
+            }
+            Promise.all(requestPromisesArray)
+                .then(values => {
+                    const /** array<number> */ resp = values.reduce((acc, val) => acc.concat(val), [])
+                                                            .filter((val, i, arr) => arr.lastIndexOf(val) === i);
                     if (resp.length !== 0) {
                         // get all cards on the DOM
                         const /** array */ allDomCards = [].slice.call(this.shadowRoot.querySelectorAll('trello-card'));
@@ -246,6 +254,7 @@ class TrelloBoard extends PolymerElement {
                     }
                 })
                 .catch(err => console.error(err));
+
         }
     }
 
