@@ -43,11 +43,13 @@ class TrelloCard extends PolymerElement {
          <h4><edit-text id=[[id]]Title text={{title}}></h4>
         <button id="removeBtn"> X </button>
        </div>
-     
-      <div id="card-description">
-        <label>description</label>
-        <p><edit-text id=[[id]]Desc text={{description}}></edit-text></p>
-      </div>
+       
+      <details id="card-description">
+          <summary>
+                <label id="descLabel">No description available</label>
+           </summary> 
+           <p><edit-text id=[[id]]Desc text={{description}}></edit-text></p>
+      </details>
     `;
     }
     static get properties() {
@@ -61,6 +63,7 @@ class TrelloCard extends PolymerElement {
             description: {
                 type: String,
                 notify: true,
+                reflectToAttribute:true,
                 observer: 'updateCard'
             },
             id: {
@@ -79,6 +82,7 @@ class TrelloCard extends PolymerElement {
     getIdNumber(id) {
         return id.replace('card','');
     }
+
 
     updateCard(newVal, oldVal) {
         if (oldVal) { // it means it's an update
@@ -128,7 +132,14 @@ class TrelloCard extends PolymerElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name,oldValue,newValue);
-        console.log(name, newValue);
+        if (name === "description") {
+           // this.$['card-description'].empty();
+            if( newValue === "") {
+                this.$['descLabel'].textContent = "No description available";
+            } else {
+                this.$['descLabel'].textContent = "Description";
+            }
+        }
     }
 
     removeCard(elem) {
