@@ -40,13 +40,13 @@ class TrelloCard extends PolymerElement {
       </style>
       
       <div id="card-header-container">
-         <h4><edit-text id=[[id]]Title>{{title}}</edit-text></h4>
+         <h4>{{title}}</h4>
         <button id="removeBtn"> X </button>
        </div>
      
       <div id="card-description">
         <label>description</label>
-        <p><edit-text id=[[id]]Desc>{{description}}</edit-text></p>
+        <p><edit-text id=[[id]]Desc description={{description}}></edit-text></p>
       </div>
     `;
     }
@@ -57,7 +57,9 @@ class TrelloCard extends PolymerElement {
                 value: 'card title'
             },
             description: {
-                type: String
+                type: String,
+                notify: true,
+                observer: 'updateCard'
             },
             id: {
                 type: String
@@ -65,6 +67,9 @@ class TrelloCard extends PolymerElement {
             idNumber:{
                 type: Number,
                 computed: 'getIdNumber(id)'
+            },
+            columnId: {
+                type: Number
             }
         };
     }
@@ -73,8 +78,31 @@ class TrelloCard extends PolymerElement {
         return id.replace('card','');
     }
 
+    updateCard(oldVal, newVal) {
+        if (newVal) {
+            this.requestObject = {
+                method: 'PUT',
+                url: `${cardUrl}/${this.idNumber}`,
+                headers: {'Content-Type': 'application/json'},
+                body : JSON.stringify({
+                    id: this.idNumber,
+                    title: this.title,
+                    description: this.description,
+                    columnId: this.columnId
+                })
+            };
+            request(this.requestObject)
+                .then(resp => {
+                    console.log(resp);
+                })
+                .catch(err => console.error(err));
+        }
+
+    }
+
     constructor() {
         super();
+        this.requestObject = {};
     }
 
     ready() {
@@ -110,10 +138,12 @@ class TrelloCard extends PolymerElement {
         };
         request(this.requestObject)
             .then(resp => {
-                console.log(resp);
+                console.log("remove card successful");
             })
             .catch(err => console.error(err));
     }
+
+
 }
 
 customElements.define('trello-card', TrelloCard);

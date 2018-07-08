@@ -121,6 +121,7 @@ class TrelloBoard extends PolymerElement {
               const /** trello-card */ newCard = document.createElement('trello-card');
               newCard.title = currCard.title;
               newCard.id = `card${currCard.id}`;
+              newCard.columnId = currentCol.id;
               if (currCard.description !== undefined) newCard.description = currCard.description;
               newCard.slot = 'card';
 
@@ -188,7 +189,8 @@ class TrelloBoard extends PolymerElement {
         };
         request(this.requestObject)
             .then(resp => {
-                console.log(resp);
+                resp = JSON.parse(resp);
+                console.log(`add column ${resp.id} successful `);
             })
             .catch(err => console.error(err));
     }
@@ -207,7 +209,8 @@ class TrelloBoard extends PolymerElement {
         };
         request(this.requestObject)
             .then(resp => {
-                console.log(resp);
+                resp = JSON.parse(resp);
+                console.log(`add card ${resp.id} to column ${resp.columnId} successful `);
             })
             .catch(err => console.error(err));
     }

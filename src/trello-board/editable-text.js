@@ -34,10 +34,22 @@ class EditableText extends PolymerElement {
         }
       </style>
       <form id="editableForm">
-        <input id="editableInput" required="required"/>
+        <input id="editableInput" required="required" value={{description}}/>
         </form>
-      <span id="editableField"></span>
+      <span id="editableField">{{description}}</span>
     `;
+    }
+
+  static get properties() {
+        return {
+            description: {
+                type: String,
+                notify: true
+            },
+            id: {
+                type: String
+            }
+        };
     }
 
   constructor() {
@@ -50,7 +62,7 @@ class EditableText extends PolymerElement {
     const /** HTMLElement */ editSpan = this.$['editableField'];
     const /** HTMLElement */ editInput = this.$['editableInput'];
     const /** HTMLElement */ editForm = this.$['editableForm'];
-    editSpan.textContent = this.textContent;
+    //editSpan.textContent = this.textContent;
 
     editInput.style.width = editSpan.clientWidth + 'px';
 
@@ -65,13 +77,14 @@ class EditableText extends PolymerElement {
       editForm.addEventListener('submit', function (e) {
           e.preventDefault();
       });
-      editInput.addEventListener('change', updateDisplay);
+      editInput.addEventListener('change', (e) => {updateDisplay(this)});
 
-      function updateDisplay() {
+      function updateDisplay(hostElem) {
           editSpan.style.display = 'flex';
           editForm.style.display = 'none';
           editSpan.textContent = editInput.value;
           editInput.style.width = editSpan.clientWidth + 'px';
+          hostElem.description = editInput.value;
       }
 
     });

@@ -54,7 +54,7 @@ class TrelloColumn extends PolymerElement {
       </style>
        
       <div id="col-header-container">
-        <h2><edit-text id=[[id]]Title>{{title}}</edit-text></h2>
+        <h2>{{title}}</h2>
         <button id="removeBtn"> X </button>
        </div>
       
@@ -130,7 +130,7 @@ class TrelloColumn extends PolymerElement {
         };
         request(this.requestObject)
             .then(resp => {
-                console.log(resp);
+                console.log("remove column successful");
             })
             .catch(err => console.error(err));
     }
