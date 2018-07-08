@@ -49,7 +49,7 @@ class TrelloBoard extends PolymerElement {
       <h1>[[Title]]</h1>
        <app-toolbar>
         <div main-title>My board</div>
-        <edit-text id="searchField" text={{search}}></edit-text>
+        <input id="searchField" value={{search}}/>
       </app-toolbar>
       <div id="board-container">
         </div>
@@ -89,6 +89,7 @@ class TrelloBoard extends PolymerElement {
 
     ready(){
         super.ready();
+        this.search = "Search";
 
         this.boardContainer = this.$['board-container'];
 
@@ -99,6 +100,7 @@ class TrelloBoard extends PolymerElement {
         });
 
 
+        this.$['searchField'].addEventListener('change',(e) => this.search = e.target.value);
         // call to request
         request(this.requestObject)
             .then(columns => {
