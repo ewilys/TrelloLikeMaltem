@@ -93,9 +93,9 @@ class EditableText extends PolymerElement {
           editSpan.style.display = 'flex';
           editForm.style.display = 'none';
           if(editInput.value === "") editInput.value = "None";
-          editSpan.textContent = editInput.value;
+          editSpan.textContent = editInput.value.trim();
           editInput.style.width = editSpan.clientWidth + 'px';
-          hostElem.text = editInput.value;
+          hostElem.text = editInput.value.trim();
       }
 
     });

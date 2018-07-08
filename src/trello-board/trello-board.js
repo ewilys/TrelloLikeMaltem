@@ -257,6 +257,7 @@ class TrelloBoard extends PolymerElement {
                                                             .filter((val, i, arr) => arr.lastIndexOf(val) === i);
                     // get all cards on the DOM
                     const /** array */ allDomCards = [].slice.call(this.shadowRoot.querySelectorAll('trello-card'));
+                    console.log(allDomCards);
                     if (resp.length !== 0) {
                         const /** array */ cardsToDisplay = allDomCards.filter((node) => resp.includes(Number(node.idNumber)));
                         const /** array */ cardsToHide = allDomCards.filter((node) => !resp.includes(Number(node.idNumber)));

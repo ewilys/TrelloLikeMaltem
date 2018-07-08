@@ -20,7 +20,7 @@ class TrelloCard extends PolymerElement {
         :host {
             border: 1px groove lavender;
             border-radius: 5px;
-            display:flex;
+            /* display:flex; */
             flex-direction: column;
             padding: 5px;
             margin: 5px 0px;
@@ -29,7 +29,7 @@ class TrelloCard extends PolymerElement {
         }
         #card-header-container {
             display: flex;
-            flex:1
+            flex:1;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
@@ -47,7 +47,6 @@ class TrelloCard extends PolymerElement {
         #card-description {
             display: flex;
             flex-direction: column;
-            /*background-color: lightblue;*/
            
             
         }

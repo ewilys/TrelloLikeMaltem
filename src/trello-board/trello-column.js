@@ -25,7 +25,7 @@ class TrelloColumn extends PolymerElement {
             flex-direction: column;
             justify-content: space-around;
             padding: 10px;
-            
+            background-color: lightcyan;
             
         }
         .fancy {
