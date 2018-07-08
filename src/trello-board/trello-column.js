@@ -19,12 +19,12 @@ class TrelloColumn extends PolymerElement {
         return html`
       <style xmlns="http://www.w3.org/1999/html">
         :host {
-            border-style: solid;
-            border-width:1px;
-            border-color: black;
+            border: 2px solid lightblue;
+            border-radius: 5px;
             display:flex;
             flex-direction: column;
             justify-content: space-around;
+            padding: 10px;
             /* align-items: center; */
             
         }
@@ -37,16 +37,27 @@ class TrelloColumn extends PolymerElement {
             display:flex;
             align-self: center;
           }
+          
+        #removeBtn {
+            font-size: 10px;
+            color: white;
+            border-radius: 5px;
+            padding: 0.5em ;
+            background: rgb(76, 208, 204);
+            display:flex;
+            align-self: center;
+        }
         #col-header-container {
             display: flex;
-            flex:1
+            flex:1;
             flex-direction: row;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
 
         }
         #column-container {
             display: flex;
+            flex:1;
             flex-direction: column;
             justify-content: space-around;
             background-color: azure;

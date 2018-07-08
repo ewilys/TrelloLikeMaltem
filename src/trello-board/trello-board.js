@@ -23,6 +23,7 @@ class TrelloBoard extends PolymerElement {
       <style>
         :host {
           display: block;
+          
         }
         .fancy {
             font-size: 14px;
@@ -35,21 +36,29 @@ class TrelloBoard extends PolymerElement {
         app-toolbar {
             /* Toolbar is the main header, so give it some color */
           background-color: #1E88E5;
+          border-radius: 5px;
           font-family: 'Roboto', Helvetica, sans-serif;
           color: white;
           --app-toolbar-font-size: 24px;
+        }
+        app-toolbar input{
+            width: 30%;
+            
         }
         #board-container {
             display: flex;
             flex-direction: row;
             justify-content: space-around;
             align-items: flex-start;
+            background-color: azure;
+            border: 1px solid #1E88E5;
+            border-radius: 5px;
         }
       </style>
       <h1>[[Title]]</h1>
        <app-toolbar>
         <div main-title>My board</div>
-        <input id="searchField" value={{search}}/>
+        <input id="searchField" value={{search}} />
       </app-toolbar>
       <div id="board-container">
         </div>

@@ -7,10 +7,6 @@
     {
       "id": 2,
       "title": "Column 2"
-    },
-    {
-      "id": 3,
-      "title": "Column 3"
     }
   ],
   "cards": [
@@ -35,20 +31,14 @@
     {
       "id": 4,
       "title": "Card 4",
-      "description": "Quisque id scelerisque felis, sit amet scelerisque nunc.",
+      "description": "llQuisque id scelerisque felis, sit amet scelerisque nunc.",
       "columnId": 2
     },
     {
       "id": 5,
       "title": "Card 5",
-      "description": "Suspendisse posuere ipsum at dui lacinia, ut faucibus lectus mollis.",
+      "description": "Suspendisse posuere ipsum at dui lacinia, ut faucibus lectus mollis",
       "columnId": 2
-    },
-    {
-      "id": 6,
-      "title": "Card 6",
-      "description": "No description",
-      "columnId": 3
     }
   ]
 }

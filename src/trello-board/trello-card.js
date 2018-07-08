@@ -18,23 +18,26 @@ class TrelloCard extends PolymerElement {
         return html`
       <style>
         :host {
-            border-style: groove;
-            border-width: 1px;
-            border-color: blue;
-            
+            border: 1px groove blue;
+            border-radius: 5px;
+            display:flex;
+            flex-direction: column;
+            padding: 5px;
+            background-color: lightgoldenrodyellow;
         }
         #card-header-container {
             display: flex;
             flex:1
             flex-direction: row;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
 
         }
         #card-description {
             display: flex;
             flex-direction: column;
-            background-color: lightblue;
+            /*background-color: lightblue;*/
+           
             
         }
       </style>
@@ -133,7 +136,6 @@ class TrelloCard extends PolymerElement {
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name,oldValue,newValue);
         if (name === "description") {
-           // this.$['card-description'].empty();
             if( newValue === "") {
                 this.$['descLabel'].textContent = "No description available";
             } else {

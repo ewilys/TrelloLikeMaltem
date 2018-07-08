@@ -24,9 +24,11 @@ class EditableText extends PolymerElement {
          background-color: #eef; 
          padding: 0 2px;
          display: flex;
+         flex:1;
         }
         form {
             display: none;
+            flex:1;
         }
         input {
             display: flex;
@@ -63,6 +65,9 @@ class EditableText extends PolymerElement {
     const /** HTMLElement */ editInput = this.$['editableInput'];
     const /** HTMLElement */ editForm = this.$['editableForm'];
 
+    editSpan.textContent = this.text;
+    editInput.value = this.text;
+    console.log(editSpan.textContent);
     editInput.style.width = editSpan.clientWidth + 'px';
 
     afterNextRender(this, function() {
