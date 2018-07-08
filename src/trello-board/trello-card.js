@@ -18,11 +18,12 @@ class TrelloCard extends PolymerElement {
         return html`
       <style>
         :host {
-            border: 1px groove blue;
+            border: 1px groove lavender;
             border-radius: 5px;
             display:flex;
             flex-direction: column;
             padding: 5px;
+            margin: 5px 0px;
             background-color: lightgoldenrodyellow;
         }
         #card-header-container {
@@ -32,6 +33,15 @@ class TrelloCard extends PolymerElement {
             justify-content: space-between;
             align-items: center;
 
+        }
+        #removeBtn {
+            font-size: 10px;
+            color: black;
+            border-radius: 5px;
+            padding: 0.5em ;
+            background: lavender;
+            display:flex;
+            align-self: center;
         }
         #card-description {
             display: flex;

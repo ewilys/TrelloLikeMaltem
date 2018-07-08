@@ -55,7 +55,7 @@ class TrelloBoard extends PolymerElement {
             border-radius: 5px;
         }
       </style>
-      <h1>[[Title]]</h1>
+      <h1 style="color: rgb(76, 208, 204);">[[Title]]</h1>
        <app-toolbar>
         <div main-title>My board</div>
         <input id="searchField" value={{search}} />
