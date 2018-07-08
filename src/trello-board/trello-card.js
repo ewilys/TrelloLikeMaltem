@@ -80,8 +80,9 @@ class TrelloCard extends PolymerElement {
         return id.replace('card','');
     }
 
-    updateCard(oldVal, newVal) {
-        if (newVal) {
+    updateCard(newVal, oldVal) {
+        if (oldVal) { // it means it's an update
+            console.log(newVal);
             this.requestObject = {
                 method: 'PUT',
                 url: `${cardUrl}/${this.idNumber}`,
@@ -149,4 +150,4 @@ class TrelloCard extends PolymerElement {
 
 }
 
-customElements.define('trello-card', TrelloCard);
+window.customElements.define('trello-card', TrelloCard);

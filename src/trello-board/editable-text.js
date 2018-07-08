@@ -91,4 +91,4 @@ class EditableText extends PolymerElement {
   }
 }
 
-customElements.define('edit-text', EditableText);
+window.customElements.define('edit-text', EditableText);

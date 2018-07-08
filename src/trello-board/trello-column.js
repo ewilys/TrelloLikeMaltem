@@ -56,7 +56,7 @@ class TrelloColumn extends PolymerElement {
        
       <div id="col-header-container">
         <h2><edit-text id=[[id]]Title text={{title}}></h2>
-        <paper-icon-button icon="star" id="removeBtn"></paper-icon-button>
+        <button id="removeBtn">X</button>
        </div>
       
       <div id="column-container">
@@ -88,8 +88,8 @@ class TrelloColumn extends PolymerElement {
         return Number(id.replace('col',''));
     }
 
-    updateCol(oldVal, newVal) {
-        if (newVal) {
+    updateCol(newVal, oldVal) {
+        if (oldVal) { // it means it's an update
             this.requestObject = {
                 method: 'PUT',
                 url: `${columnUrl}/${this.idNumber}`,
@@ -161,6 +161,6 @@ class TrelloColumn extends PolymerElement {
 
 }
 
-customElements.define('trello-column', TrelloColumn);
+window.customElements.define('trello-column', TrelloColumn);
 
 

@@ -7,6 +7,8 @@
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import '@polymer/paper-button/paper-button.js';
+import './editable-text.js';
 import './trello-column.js';
 import './trello-card.js';
 import {columnUrl, cardUrl, request} from "./fake-server.js";
@@ -47,6 +49,7 @@ class TrelloBoard extends PolymerElement {
       <h1>[[Title]]</h1>
        <app-toolbar>
         <div main-title>My board</div>
+        <edit-text id="searchField" text={{search}}></edit-text>
       </app-toolbar>
       <div id="board-container">
         </div>
@@ -54,10 +57,16 @@ class TrelloBoard extends PolymerElement {
   }
   static get properties() {
     return {
-      Title: {
-        type: String,
-        value: 'My trello'
-      }
+        Title: {
+            type: String,
+            value: 'My trello'
+          },
+        search: {
+            type: String,
+            value: 'Search',
+            notify:true,
+            observer: 'searchKeyword'
+          }
     };
   }
 
@@ -216,9 +225,32 @@ class TrelloBoard extends PolymerElement {
     }
 
 
+    searchKeyword(newVal, oldVal) {
+        if (oldVal) {
+            // if several words we need to do multiple text research and merge results
+            this.requestObject = {
+                method: 'GET',
+                url: `${cardUrl}?q=${newVal}`
+            };
+            request(this.requestObject)
+                .then(resp => {
+                    resp = JSON.parse(resp);
+                    resp = resp.map(val => val.id);
+                    if (resp.length !== 0) {
+                        // get all cards on the DOM
+                        const /** array */ allDomCards = [].slice.call(this.shadowRoot.querySelectorAll('trello-card'));
+                        const /** array */ cardsToDisplay = allDomCards.filter((node) => resp.includes(Number(node.idNumber)));
+                        const /** array */ cardsToHide = allDomCards.filter((node) => !resp.includes(Number(node.idNumber)));
+                        cardsToDisplay.forEach(card => card.removeAttribute('hidden'));
+                        cardsToHide.forEach(card => card.setAttribute('hidden', true));
+                    }
+                })
+                .catch(err => console.error(err));
+        }
+    }
 
 }
 
-customElements.define('trello-board', TrelloBoard);
+window.customElements.define('trello-board', TrelloBoard);
 
 
