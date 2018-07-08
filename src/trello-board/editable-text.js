@@ -82,6 +82,11 @@ class EditableText extends PolymerElement {
           e.preventDefault();
       });
       editInput.addEventListener('change', (e) => {updateDisplay(this)});
+      editInput.addEventListener('focusout', (e) => {
+          editSpan.style.display = 'flex';
+          editForm.style.display = 'none';
+
+      });
 
       function updateDisplay(hostElem) {
           editSpan.style.display = 'flex';

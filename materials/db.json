@@ -7,10 +7,6 @@
     {
       "id": 2,
       "title": "Column 2"
-    },
-    {
-      "id": 3,
-      "title": "Column 3"
     }
   ],
   "cards": [
@@ -35,7 +31,7 @@
     {
       "id": 4,
       "title": "Card 4",
-      "description": "llQuisque id scelerisque felis, sit amet scelerisque nunc.",
+      "description": "Quisque id scelerisque felis, sit amet scelerisque nunc.",
       "columnId": 2
     },
     {

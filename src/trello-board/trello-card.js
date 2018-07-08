@@ -133,6 +133,14 @@ class TrelloCard extends PolymerElement {
     connectedCallback() {
         super.connectedCallback();
 
+        this.addEventListener('click', () => {
+           const /** HTMLElement */ details = this.shadowRoot.querySelector('details');
+           if (details.hasAttribute('open')) {
+               details.removeAttribute('open');
+           } else {
+               details.setAttribute('open', true);
+           }
+        });
         this.$['removeBtn'].addEventListener('click', () => {
             this.removeCard(this);
         });
