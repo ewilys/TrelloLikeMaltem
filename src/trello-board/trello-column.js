@@ -10,6 +10,8 @@ import '@polymer/paper-icon-button/paper-icon-button.js';
 import './editable-text.js';
 import {columnUrl, cardUrl, request} from "./fake-server";
 
+/* global dragula */
+
 /**
  * @customElement
  * @polymer
@@ -45,7 +47,7 @@ class TrelloColumn extends PolymerElement {
             align-items: center;
 
         }
-        #column-container {
+        #card-container {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -59,7 +61,7 @@ class TrelloColumn extends PolymerElement {
         <button id="removeBtn">X</button>
        </div>
       
-      <div id="column-container">
+      <div id="card-container">
         <slot name="card"></slot>
         <button class="fancy" id="addCardBtn">Add Card</button>
         </div>
@@ -120,6 +122,47 @@ class TrelloColumn extends PolymerElement {
 
     connectedCallback() {
         super.connectedCallback();
+
+        const containers = this.$['card-container'].querySelectorAll('slot');
+        console.log(containers);
+        this.drake = dragula([this.$['card-container']]);
+        this.drake.on('drag', function (el, source) {
+            this.fire('dragula-drag', {el: el, source: source});
+        }.bind(this));
+        this.drake.on('dragend', function (el) {
+            this.fire('dragula-dragend', {el: el});
+        }.bind(this));
+        this.drake.on('drop', function (el, target, source, sibling) {
+            this.fire('dragula-drop', {el: el, target: target, source: source, sibling: sibling});
+        }.bind(this));
+        this.drake.on('cancel', function (el, container, source) {
+            this.fire('dragula-cancel', {el: el, container: container, source: source});
+        }.bind(this));
+        this.drake.on('remove', function (el, container, source) {
+            this.fire('dragula-remove', {el: el, container: container, source: source});
+        }.bind(this));
+        this.drake.on('shadow', function (el, container, source) {
+            this.fire('dragula-shadow', {el: el, container: container, source: source});
+        }.bind(this));
+        this.drake.on('over', function (el, container, source) {
+            this.fire('dragula-over', {el: el, container: container, source: source});
+        }.bind(this));
+        this.drake.on('out', function (el, container, source) {
+            this.fire('dragula-out', {el: el, container: container, source: source});
+        }.bind(this));
+        this.drake.on('cloned', function (clone, container, type) {
+            this.fire('dragula-cloned', {clone: clone, container: container, type: type});
+        }.bind(this));
+
+        // // attach event to the drop container
+        // this.$['card-container'].addEventListener('dragover', (e) => e.preventDefault());
+        // this.$['card-container'].addEventListener('drop', (e) => {
+        //     console.log(e);
+        //     console.log(e.dataTransfer.getData('application/x-moz-node'));
+        //     e.preventDefault();
+        // });
+
+        // attach event for button
         this.$['removeBtn'].addEventListener('click', () => {
             this.removeColumn(this);
         });
@@ -129,11 +172,12 @@ class TrelloColumn extends PolymerElement {
                 {detail: {btn:e.target, col:this.idNumber}, composed:true}));
         });
 
+
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
-
+        this.drake.destroy();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

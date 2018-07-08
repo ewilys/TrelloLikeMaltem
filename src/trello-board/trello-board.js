@@ -135,6 +135,7 @@ class TrelloBoard extends PolymerElement {
               newCard.columnId = currentCol.id;
               if (currCard.description !== undefined) newCard.description = currCard.description;
               newCard.slot = 'card';
+              //newCard.setAttribute('draggable', true);
 
               newCol.appendChild(newCard);
               this.totalNumberOfCard++;

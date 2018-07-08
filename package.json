@@ -11,6 +11,7 @@
     "@polymer/paper-icon-button": "^3.0.0-pre.20",
     "@polymer/polymer": "^3.0.0",
     "debug": "^3.1.0",
+    "dragula": "^3.7.2",
     "growl": "^1.10.5",
     "mocha": "^5.2.0"
   },

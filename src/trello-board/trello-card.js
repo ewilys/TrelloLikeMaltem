@@ -119,6 +119,11 @@ class TrelloCard extends PolymerElement {
         this.$['removeBtn'].addEventListener('click', () => {
             this.removeCard(this);
         });
+
+        // this.addEventListener('dragstart', (event) => {
+        //     event.dataTransfer.setData('application/x-moz-node', this);
+        //    console.log(event.dataTransfer.getData('application/x-moz-node'));
+        // });
     }
 
     disconnectedCallback() {
