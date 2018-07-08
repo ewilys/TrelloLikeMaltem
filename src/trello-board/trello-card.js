@@ -40,13 +40,13 @@ class TrelloCard extends PolymerElement {
       </style>
       
       <div id="card-header-container">
-         <h4>{{title}}</h4>
+         <h4><edit-text id=[[id]]Title text={{title}}></h4>
         <button id="removeBtn"> X </button>
        </div>
      
       <div id="card-description">
         <label>description</label>
-        <p><edit-text id=[[id]]Desc description={{description}}></edit-text></p>
+        <p><edit-text id=[[id]]Desc text={{description}}></edit-text></p>
       </div>
     `;
     }
@@ -54,7 +54,9 @@ class TrelloCard extends PolymerElement {
         return {
             title: {
                 type: String,
-                value: 'card title'
+                value: 'card title',
+                notify: true,
+                observer: 'updateCard'
             },
             description: {
                 type: String,
@@ -93,7 +95,8 @@ class TrelloCard extends PolymerElement {
             };
             request(this.requestObject)
                 .then(resp => {
-                    console.log(resp);
+                    resp = JSON.parse(resp);
+                    console.log(`card ${resp.id} has been successfully updated`);
                 })
                 .catch(err => console.error(err));
         }

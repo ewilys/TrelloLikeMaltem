@@ -54,7 +54,7 @@ class TrelloColumn extends PolymerElement {
       </style>
        
       <div id="col-header-container">
-        <h2>{{title}}</h2>
+        <h2><edit-text id=[[id]]Title text={{title}}></h2>
         <button id="removeBtn"> X </button>
        </div>
       
@@ -70,7 +70,8 @@ class TrelloColumn extends PolymerElement {
             title: {
                 type: String,
                 value: 'Title',
-                notify: true
+                notify: true,
+                observer: 'updateCol'
             },
             id: {
                 type: String
@@ -84,6 +85,27 @@ class TrelloColumn extends PolymerElement {
 
     getIdNumber(id) {
         return Number(id.replace('col',''));
+    }
+
+    updateCol(oldVal, newVal) {
+        if (newVal) {
+            this.requestObject = {
+                method: 'PUT',
+                url: `${columnUrl}/${this.idNumber}`,
+                headers: {'Content-Type': 'application/json'},
+                body : JSON.stringify({
+                    id: this.idNumber,
+                    title: this.title,
+                })
+            };
+            request(this.requestObject)
+                .then(resp => {
+                    resp = JSON.parse(resp);
+                    console.log(`col ${resp.id} has been successfully updated`);
+                })
+                .catch(err => console.error(err));
+        }
+
     }
 
     constructor() {
