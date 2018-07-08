@@ -142,7 +142,7 @@ class TrelloBoard extends PolymerElement {
               newCard.title = currCard.title;
               newCard.id = `card${currCard.id}`;
               newCard.columnId = currentCol.id;
-              newCard.description = currCard.description || "";
+              newCard.description = currCard.description || "No description";
               newCard.slot = 'card';
 
               newCol.appendChild(newCard);

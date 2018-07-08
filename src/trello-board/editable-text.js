@@ -25,6 +25,8 @@ class EditableText extends PolymerElement {
          padding: 0 2px;
          display: flex;
          flex:1;
+         max-width: 200px;
+         min-width: 15px;
         }
         form {
             display: none;
@@ -33,10 +35,11 @@ class EditableText extends PolymerElement {
         input {
             display: flex;
             flex:1;
+            
         }
       </style>
       <form id="editableForm">
-        <input id="editableInput" required="required" value={{text}}/>
+        <input id="editableInput" required="required" value={{text}} placeholder="description here"/>
         </form>
       <span id="editableField">{{text}}</span>
     `;
@@ -65,9 +68,6 @@ class EditableText extends PolymerElement {
     const /** HTMLElement */ editInput = this.$['editableInput'];
     const /** HTMLElement */ editForm = this.$['editableForm'];
 
-    editSpan.textContent = this.text;
-    editInput.value = this.text;
-    console.log(editSpan.textContent);
     editInput.style.width = editSpan.clientWidth + 'px';
 
     afterNextRender(this, function() {
@@ -92,6 +92,7 @@ class EditableText extends PolymerElement {
       function updateDisplay(hostElem) {
           editSpan.style.display = 'flex';
           editForm.style.display = 'none';
+          if(editInput.value === "") editInput.value = "None";
           editSpan.textContent = editInput.value;
           editInput.style.width = editSpan.clientWidth + 'px';
           hostElem.text = editInput.value;

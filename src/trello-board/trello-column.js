@@ -61,7 +61,6 @@ class TrelloColumn extends PolymerElement {
             flex-direction: column;
             justify-content: space-around;
             background-color: azure;
-            
         }
       </style>
        

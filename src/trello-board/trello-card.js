@@ -25,6 +25,7 @@ class TrelloCard extends PolymerElement {
             padding: 5px;
             margin: 5px 0px;
             background-color: lightgoldenrodyellow;
+           
         }
         #card-header-container {
             display: flex;
@@ -154,7 +155,7 @@ class TrelloCard extends PolymerElement {
     attributeChangedCallback(name, oldValue, newValue) {
         super.attributeChangedCallback(name,oldValue,newValue);
         if (name === "description") {
-            if( newValue === "") {
+            if( newValue === "No description" || newValue === "None") {
                 this.$['descLabel'].textContent = "No description available";
             } else {
                 this.$['descLabel'].textContent = "Description";
