@@ -244,13 +244,15 @@ class TrelloBoard extends PolymerElement {
                 .then(values => {
                     const /** array<number> */ resp = values.reduce((acc, val) => acc.concat(val), [])
                                                             .filter((val, i, arr) => arr.lastIndexOf(val) === i);
+                    // get all cards on the DOM
+                    const /** array */ allDomCards = [].slice.call(this.shadowRoot.querySelectorAll('trello-card'));
                     if (resp.length !== 0) {
-                        // get all cards on the DOM
-                        const /** array */ allDomCards = [].slice.call(this.shadowRoot.querySelectorAll('trello-card'));
                         const /** array */ cardsToDisplay = allDomCards.filter((node) => resp.includes(Number(node.idNumber)));
                         const /** array */ cardsToHide = allDomCards.filter((node) => !resp.includes(Number(node.idNumber)));
                         cardsToDisplay.forEach(card => card.removeAttribute('hidden'));
                         cardsToHide.forEach(card => card.setAttribute('hidden', true));
+                    } else {
+                        allDomCards.forEach(card => card.setAttribute('hidden', true));
                     }
                 })
                 .catch(err => console.error(err));
