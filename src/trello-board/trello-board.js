@@ -6,6 +6,7 @@
  */
 
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/paper-button/paper-button.js';
 import './editable-text.js';
@@ -73,7 +74,7 @@ class TrelloBoard extends PolymerElement {
         search: {
             type: String,
             value: 'Search',
-            notify:true,
+            notify: true,
             observer: 'searchKeyword'
           }
     };
@@ -100,31 +101,35 @@ class TrelloBoard extends PolymerElement {
         super.ready();
         this.search = "Search";
 
-        this.boardContainer = this.$['board-container'];
+        afterNextRender(this, function() {
+            this.boardContainer = this.$['board-container'];
 
-        // apply custom events
-        this.addEventListener('createCard', (e) => {
-            // e.detail contains btn and column Id
-            this.createCard(e.detail.btn, e.detail.col);
+            // apply custom events
+            this.addEventListener('createCard', (e) => {
+                // e.detail contains btn and column Id
+                this.createCard(e.detail.btn, e.detail.col);
+            });
+
+
+            this.$['searchField'].addEventListener('change',(e) => this.search = e.target.value);
+
+            // call to request
+            request(this.requestObject)
+                .then(columns => {
+                    this.columns = JSON.parse(columns);
+                    this.requestObject.url = cardUrl;
+                    return request(this.requestObject)
+                })
+                .then(cards => {
+                        this.cards = JSON.parse(cards);
+                        this.initBoard();
+                    }
+                )
+                .catch(error => {
+                    console.log(error);
+                });
         });
 
-
-        this.$['searchField'].addEventListener('change',(e) => this.search = e.target.value);
-        // call to request
-        request(this.requestObject)
-            .then(columns => {
-                this.columns = JSON.parse(columns);
-                this.requestObject.url = cardUrl;
-                return request(this.requestObject)
-            })
-            .then(cards => {
-                    this.cards = JSON.parse(cards);
-                    this.initBoard();
-                }
-            )
-            .catch(error => {
-                console.log(error);
-            });
 
     }
 
@@ -257,7 +262,7 @@ class TrelloBoard extends PolymerElement {
                                                             .filter((val, i, arr) => arr.lastIndexOf(val) === i);
                     // get all cards on the DOM
                     const /** array */ allDomCards = [].slice.call(this.shadowRoot.querySelectorAll('trello-card'));
-                    console.log(allDomCards);
+                    // ISSUE HERE : this.shadowRoot is not updated after an add card
                     if (resp.length !== 0) {
                         const /** array */ cardsToDisplay = allDomCards.filter((node) => resp.includes(Number(node.idNumber)));
                         const /** array */ cardsToHide = allDomCards.filter((node) => !resp.includes(Number(node.idNumber)));
